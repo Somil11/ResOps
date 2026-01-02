@@ -1,0 +1,24 @@
+[{
+	"id": 1,
+	"name": "User Journey",
+	"path": "/user-journey",
+	"createdAt": "2026-01-02T00:00:00.000Z"
+},
+{
+	"id": 2,
+	"name": "Data Journey",
+	"path": "/data-journey",
+	"createdAt": "2026-01-02T00:00:00.000Z"
+},
+{
+	"id": 3,
+	"name": "Security",
+	"path": "/security",
+	"createdAt": "2026-01-02T00:00:00.000Z"
+},
+{
+	"id": 4,
+	"name": "Integrations",
+	"path": "/integrations",
+	"createdAt": "2026-01-02T00:00:00.000Z"
+}]

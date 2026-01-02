@@ -3,6 +3,7 @@ import fs from "fs/promises";
 import path from "path";
 import dynamic from "next/dynamic";
 import ReclassifyButton from "../components/ReclassifyButton";
+import GenerateNodesButton from "../components/GenerateNodesButton";
 import EditableCell from "../components/EditableCell";
 
 type Item = {
@@ -35,8 +36,9 @@ export default async function AdminPage() {
   return (
     <div className="mx-auto max-w-7xl px-6 py-8">
       <h1 className="mb-6 text-2xl font-semibold">Admin — Submissions</h1>
-      <div className="mb-4">
+      <div className="mb-4 flex items-center gap-2">
         <ReclassifyButton />
+        <GenerateNodesButton />
       </div>
       {submissions.length === 0 ? (
         <div className="text-sm text-zinc-600">No submissions yet.</div>

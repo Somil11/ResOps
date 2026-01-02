@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1767363943828,
+    "name": "react",
+    "category": "frontend",
+    "count": 1
+  },
+  {
+    "id": 1767363943171,
+    "name": "nodejs",
+    "category": "backend",
+    "count": 1
+  },
+  {
+    "id": 1767363943196,
+    "name": "aws",
+    "category": "devops",
+    "count": 1
+  },
+  {
+    "id": 1767363943231,
+    "name": "postgres",
+    "category": "databases",
+    "count": 1
+  }
+]
