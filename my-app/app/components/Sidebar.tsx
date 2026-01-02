@@ -1,0 +1,26 @@
+export default function Sidebar() {
+  return (
+    <aside className="hidden w-64 shrink-0 border-r border-black/[0.06] bg-white px-4 py-6 dark:border-white/[0.06] dark:bg-[#050505] sm:block">
+      <div className="flex flex-col gap-4">
+        <div className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Modules</div>
+        <ul className="flex flex-col gap-1 text-sm text-zinc-600 dark:text-zinc-400">
+          <li>
+            <a className="block rounded-md px-3 py-2 hover:bg-black/[0.04] dark:hover:bg-white/[0.02]" href="/user-journey">User Journey</a>
+          </li>
+          <li>
+            <a className="block rounded-md px-3 py-2 hover:bg-black/[0.04] dark:hover:bg-white/[0.02]" href="/data-journey">Data Journey</a>
+          </li>
+          <li>
+            <a className="block rounded-md px-3 py-2 hover:bg-black/[0.04] dark:hover:bg-white/[0.02]" href="/security">Security</a>
+          </li>
+          <li>
+            <a className="block rounded-md px-3 py-2 hover:bg-black/[0.04] dark:hover:bg-white/[0.02]" href="/integrations">Integrations</a>
+          </li>
+          <li>
+            <a className="block rounded-md px-3 py-2 hover:bg-black/[0.04] dark:hover:bg-white/[0.02]" href="/admin">Admin</a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+  );
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1767358063136,
+    "text": "using react and node js with AWS and Postgresql",
+    "forAI": "using react and node js with aws and postgresql",
+    "createdAt": "2026-01-02T12:47:43.136Z",
+    "classification": {
+      "frontend": [
+        "React"
+      ],
+      "backend": [
+        "Node.js"
+      ],
+      "devops": [
+        "AWS"
+      ],
+      "databases": [
+        "Postgres"
+      ],
+      "tools": []
+    }
+  }
+]
