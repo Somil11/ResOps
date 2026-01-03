@@ -37,8 +37,8 @@ export async function POST(req: Request) {
     }
 
     const id = Date.now();
-    const moduleObj = { id, name, createdAt: new Date().toISOString() };
-    modules.unshift(moduleObj);
+    const moduleObj = { id, name, path: name.toLowerCase().replace(/\s+/g, "-"), createdAt: new Date().toISOString() };
+    modules.push(moduleObj);
     fs.writeFileSync(MODULES_FILE, JSON.stringify(modules, null, 2), "utf-8");
 
     return NextResponse.json({ module: moduleObj });
