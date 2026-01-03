@@ -31,11 +31,11 @@ export default function CreateModuleForm({ onCreated }: { onCreated?: () => void
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-md border bg-white p-4 dark:bg-[#050505]">
+    <form onSubmit={handleSubmit} className="group flex aspect-square flex-col justify-between rounded-xl border border-zinc-200 bg-zinc-50 p-4 transition-all hover:-translate-y-1 hover:shadow-md dark:border-zinc-800 dark:bg-[#0A0A0A] dark:hover:border-zinc-700">
       <h3 className="mb-2 text-lg font-medium">Create Module</h3>
       <div className="flex gap-2">
-        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Module name" className="w-full rounded border px-2 py-1 text-sm" />
-        <button type="submit" disabled={loading} className="rounded bg-black px-3 py-1 text-sm text-white">
+        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Module name" className="w-full rounded border px-2 py-1 text-sm" /></div>
+        <div><button type="submit" disabled={loading} className="rounded bg-black px-3 py-1 text-sm text-white">
           {loading ? "Creating..." : "Create"}
         </button>
       </div>

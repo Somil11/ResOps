@@ -1,35 +1,70 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function CenteredForm() {
+// 1. Move interface outside the component
+interface GenerateProps {
+  onNodesGenerated?: () => void;
+}
+
+// 2. Accept props in the function signature
+export default function CenteredForm({ onNodesGenerated }: GenerateProps) {
   const [value, setValue] = useState("");
-  // ensure a persistent user id per browser
-  const uidKey = "resops_user_id";
-  let userId = typeof window !== "undefined" ? localStorage.getItem(uidKey) : null;
-  if (!userId && typeof window !== "undefined") {
-    userId = `user_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
-    localStorage.setItem(uidKey, userId);
-  }
+  const [loading, setLoading] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
 
-  function handleSubmit(e: React.FormEvent) {
+  // 3. Handle localStorage safely on the client side only
+  useEffect(() => {
+    const uidKey = "resops_user_id";
+    let storedId = localStorage.getItem(uidKey);
+    
+    if (!storedId) {
+      storedId = `user_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
+      localStorage.setItem(uidKey, storedId);
+    }
+    setUserId(storedId);
+  }, []);
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // POST to our server route which stores submissions for AI interpretation
-    fetch("/api/submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: value, userId }),
-    })
-      .then(async (res) => {
-        if (!res.ok) throw new Error("Network error");
-        const data = await res.json();
-        console.log("Saved:", data.item);
-        setValue("");
-      })
-      .catch((err) => {
-        console.error(err);
-        // optional: show user-facing error state
+    if (!value.trim() || !userId) return; // Prevent empty submits
+    
+    setLoading(true);
+
+    try {
+      // Step 1: Submit Form Data
+      const submitRes = await fetch("/api/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: value, userId }),
       });
+
+      if (!submitRes.ok) throw new Error("Network error during submission");
+      
+      const submitData = await submitRes.json();
+      console.log("Saved:", submitData.item);
+      setValue(""); // Clear input immediately on success
+
+      // Step 2: Generate Nodes
+      const nodesRes = await fetch("/api/nodes", { method: "POST" });
+      const nodesData = await nodesRes.json();
+
+      if (nodesData?.nodes) {
+        if (onNodesGenerated) {
+          onNodesGenerated(); // Call parent refresher
+        } else {
+          window.location.reload(); // Fallback
+        }
+      } else {
+        alert("No nodes created");
+      }
+
+    } catch (e) {
+      console.error(e);
+      alert("Failed to process request");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -40,14 +75,16 @@ export default function CenteredForm() {
           type="text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
+          disabled={loading}
           placeholder="Enter text..."
-          className="min-w-0 flex-1 rounded-md border border-black/[0.08] bg-white px-6 py-3 text-base outline-none dark:border-white/[0.08] dark:bg-[#0b0b0b] dark:text-zinc-50"
+          className="min-w-0 flex-1 rounded-md border border-black/[0.08] bg-white px-6 py-3 text-base outline-none disabled:opacity-50 dark:border-white/[0.08] dark:bg-[#0b0b0b] dark:text-zinc-50"
         />
         <button
           type="submit"
-          className="rounded-full bg-black px-5 py-3 text-white hover:bg-[#222] dark:bg-zinc-50 dark:text-black"
+          disabled={loading || !value.trim()}
+          className="rounded-full bg-black px-5 py-3 text-white transition-opacity hover:bg-[#222] disabled:opacity-50 dark:bg-zinc-50 dark:text-black"
         >
-          Submit
+          {loading ? "Processing..." : "Submit"}
         </button>
       </form>
     </div>

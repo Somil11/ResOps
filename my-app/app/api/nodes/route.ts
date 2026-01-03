@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { NextResponse } from "next/server";
 
+
 const DATA_DIR = path.join(process.cwd(), "data");
 const SUBMISSIONS_FILE = path.join(DATA_DIR, "submissions.json");
 const NODES_FILE = path.join(DATA_DIR, "nodes.json");
@@ -12,6 +13,24 @@ function normalizeTag(tag: string) {
     .toLowerCase()
     .replace(/\s+/g, " ")
     .replace(/[^a-z0-9 \-]/g, "");
+}
+function ensureDataDir() {
+  if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+}
+
+export async function GET() {
+  try {
+    ensureDataDir();
+    if (!fs.existsSync(NODES_FILE)) {
+      fs.writeFileSync(NODES_FILE, JSON.stringify([], null, 2));
+    }
+    const raw = fs.readFileSync(NODES_FILE, "utf-8");
+    const nodes = JSON.parse(raw || "[]");
+    return NextResponse.json({ nodes });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ error: "Failed to read nodes" }, { status: 500 });
+  }
 }
 
 export async function POST() {
