@@ -18,7 +18,9 @@
       "databases": [
         "Postgres"
       ],
-      "tools": []
+      "tools": [
+        "VS code"
+      ]
     }
   }
 ]

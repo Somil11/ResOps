@@ -1,6 +1,7 @@
 export default function Sidebar() {
   return (
-    <aside className="hidden w-64 shrink-0 border-r border-black/[0.06] bg-white px-4 py-6 dark:border-white/[0.06] dark:bg-[#050505] sm:block">
+    // Changed w-64 to w-48
+    <aside className="hidden w-48 shrink-0 border-r border-black/[0.06] bg-white px-4 py-6 dark:border-white/[0.06] dark:bg-[#050505] sm:block">
       <div className="flex flex-col gap-4">
         <div className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
             <a href="/modules">Modules</a></div>

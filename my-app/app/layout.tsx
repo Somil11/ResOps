@@ -31,7 +31,9 @@ export default function RootLayout({
       >
         <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-black dark:text-zinc-50">
           <Header />
-          <div className="mx-auto flex max-w-7xl gap-6 px-4 py-6">
+          {/* Changed max-w-7xl to max-w-[1600px] (reduces side margins) */}
+          {/* Reduced py-6 to py-4 and gap-6 to gap-4 */}
+          <div className="mx-auto flex w-full max-w-[1600px] gap-4 px-4 py-4">
             <Sidebar />
             <main className="flex-1">{children}</main>
           </div>

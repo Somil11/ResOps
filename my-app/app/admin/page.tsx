@@ -45,23 +45,17 @@ export default async function AdminPage() {
           <table className="w-full table-auto text-left">
             <thead className="bg-black/[0.02] text-sm dark:bg-white/[0.02]">
               <tr>
-                <th className="px-4 py-3">ID</th>
-                <th className="px-4 py-3">Text</th>
                 <th className="px-4 py-3">Frontend</th>
                 <th className="px-4 py-3">Backend</th>
                 <th className="px-4 py-3">DevOps</th>
                 <th className="px-4 py-3">Databases</th>
                 <th className="px-4 py-3">Tools</th>
-                <th className="px-4 py-3">Created</th>
+
               </tr>
             </thead>
             <tbody>
               {submissions.map((s) => (
-                <tr key={s.id} className="border-t border-black/[0.04] dark:border-white/[0.03] align-top text-sm">
-                  <td className="px-4 py-3">{s.id}</td>
-                  <td className="px-4 py-3 break-words max-w-[30rem]">
-                    <EditableCell id={s.id} field="text" value={s.text} placeholder="Text" />
-                  </td>
+                <tr>
                   <td className="px-4 py-3">
                     <EditableCell id={s.id} field="classification.frontend" value={s.classification?.frontend?.join(", ") || ""} placeholder="Frontend" />
                   </td>
@@ -77,7 +71,7 @@ export default async function AdminPage() {
                   <td className="px-4 py-3">
                     <EditableCell id={s.id} field="classification.tools" value={s.classification?.tools?.join(", ") || ""} placeholder="Tools" />
                   </td>
-                  <td className="px-4 py-3">{new Date(s.createdAt).toLocaleString()}</td>
+
                 </tr>
               ))}
             </tbody>

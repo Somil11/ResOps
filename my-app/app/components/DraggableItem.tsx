@@ -13,11 +13,12 @@ interface DraggableItemProps {
 export default function DraggableItem({ children, id, x, y, onDrag }: DraggableItemProps) {
   const isDragging = useRef(false);
   const dragStart = useRef({ mouseX: 0, mouseY: 0 });
+  const nodeRef = useRef<HTMLDivElement>(null); // Ref to measure the node itself
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    e.preventDefault(); // Prevent text selection
+    e.preventDefault();
+    e.stopPropagation(); // Stop event from bubbling up
     isDragging.current = true;
-    // Record where we clicked relative to the item's current position
     dragStart.current = {
       mouseX: e.clientX - x,
       mouseY: e.clientY - y,
@@ -26,13 +27,28 @@ export default function DraggableItem({ children, id, x, y, onDrag }: DraggableI
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      if (!isDragging.current) return;
+      if (!isDragging.current || !nodeRef.current) return;
       
-      // Calculate new position
-      const newX = e.clientX - dragStart.current.mouseX;
-      const newY = e.clientY - dragStart.current.mouseY;
+      const parent = nodeRef.current.parentElement;
+      if (!parent) return;
+
+      // 1. Calculate the "raw" new position based on mouse
+      let newX = e.clientX - dragStart.current.mouseX;
+      let newY = e.clientY - dragStart.current.mouseY;
+
+      // 2. Get dimensions for clamping
+      const parentRect = parent.getBoundingClientRect();
+      const nodeRect = nodeRef.current.getBoundingClientRect();
+
+      // 3. Clamp X (0 to ParentWidth - NodeWidth)
+      const maxX = parentRect.width - nodeRect.width;
+      newX = Math.max(0, Math.min(newX, maxX));
+
+      // 4. Clamp Y (0 to ParentHeight - NodeHeight)
+      const maxY = parentRect.height - nodeRect.height;
+      newY = Math.max(0, Math.min(newY, maxY));
       
-      // Tell the parent component!
+      // 5. Update parent state
       onDrag(id, newX, newY);
     };
 
@@ -40,6 +56,7 @@ export default function DraggableItem({ children, id, x, y, onDrag }: DraggableI
       isDragging.current = false;
     };
 
+    // Attach to window so you don't lose drag if mouse moves fast
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mouseup", handleMouseUp);
 
@@ -47,10 +64,11 @@ export default function DraggableItem({ children, id, x, y, onDrag }: DraggableI
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [id, onDrag]); // We don't include x/y here to avoid re-attaching listeners constantly
+  }, [id, onDrag]); 
 
   return (
     <div
+      ref={nodeRef}
       onMouseDown={handleMouseDown}
       style={{
         transform: `translate(${x}px, ${y}px)`,
