@@ -1,24 +1,18 @@
 [
   {
-    "id": 1767469932737,
+    "id": 1767649158831,
     "name": "react",
+    "category": "frontend",
+    "count": 2
+  },
+  {
+    "id": 1767649159316,
+    "name": "nextjs",
     "category": "frontend",
     "count": 1
   },
   {
-    "id": 1767469932432,
-    "name": "nodejs",
-    "category": "backend",
-    "count": 1
-  },
-  {
-    "id": 1767469932445,
-    "name": "aws",
-    "category": "devops",
-    "count": 1
-  },
-  {
-    "id": 1767469932166,
+    "id": 1767649158535,
     "name": "postgres",
     "category": "databases",
     "count": 1

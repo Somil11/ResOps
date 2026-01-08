@@ -2,25 +2,51 @@
   {
     "id": 1767469931812,
     "userId": "user_1767359747372_8802",
-    "text": "using react and node js with AWS and Postgresql",
-    "forAI": "using react and node js with aws and postgresql",
-    "createdAt": "2026-01-03T19:52:11.812Z",
+    "text": "React / React Native, Flutter",
+    "forAI": "react / react native, flutter",
+    "createdAt": "2026-01-05T21:23:55.652Z",
     "classification": {
       "frontend": [
         "React"
       ],
-      "backend": [
-        "Node.js"
+      "backend": [],
+      "devops": [],
+      "databases": [],
+      "tools": []
+    }
+  },
+  {
+    "id": 1767648526272,
+    "userId": "user_1767359747372_8802",
+    "text": "React / React Native, Flutter",
+    "forAI": "react / react native, flutter",
+    "createdAt": "2026-01-05T21:28:46.272Z",
+    "classification": {
+      "frontend": [
+        "React"
       ],
-      "devops": [
-        "AWS"
+      "backend": [],
+      "devops": [],
+      "databases": [],
+      "tools": []
+    }
+  },
+  {
+    "id": 1767649158402,
+    "userId": "user_1767359747372_8802",
+    "text": "We have a Next.js frontend on Vercel, a Python backend on EC2, and a single Postgres RDS instance.\"",
+    "forAI": "we have a next.js frontend on vercel, a python backend on ec2, and a single postgres rds instance.\"",
+    "createdAt": "2026-01-05T21:39:18.402Z",
+    "classification": {
+      "frontend": [
+        "Next.js"
       ],
+      "backend": [],
+      "devops": [],
       "databases": [
         "Postgres"
       ],
-      "tools": [
-        "VS code"
-      ]
+      "tools": []
     }
   }
 ]

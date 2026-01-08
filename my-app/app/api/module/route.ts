@@ -37,28 +37,9 @@ export async function POST(req: Request) {
     }
 
     const id = Date.now();
-    const slug = name.toLowerCase().replace(/\s+/g, "-");
-    
-    // Check for duplicates
-    // We check if a path with this slug already exists
-    const expectedPath = `/modules/${slug}`;
-    if (modules.find(m => m.path === expectedPath)) {
-        return NextResponse.json({ error: "Module already exists" }, { status: 409 });
-    }
-
-    const moduleObj = { 
-        id, 
-        name, 
-        // IMPORTANT: We now point to the dynamic route structure
-        path: expectedPath, 
-        createdAt: new Date().toISOString() 
-    };
-
+    const moduleObj = { id, name, path: name.toLowerCase().replace(/\s+/g, "-"), createdAt: new Date().toISOString() };
     modules.push(moduleObj);
     fs.writeFileSync(MODULES_FILE, JSON.stringify(modules, null, 2), "utf-8");
-
-    // NO file creation happens here anymore.
-    // The [slug] page handles it automatically.
 
     return NextResponse.json({ module: moduleObj });
   } catch (err) {

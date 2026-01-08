@@ -54,7 +54,6 @@ export async function POST(req: Request) {
       const prompt = `You are given a user-submitted text. Extract and categorize technologies, frameworks and tools mentioned into JSON with keys: frontend, backend, devops, databases, tools. Return only valid JSON. Example: {"frontend": ["React"], "backend": ["Node.js"], "devops": ["Docker"], "databases": ["Postgres"], "tools": ["GitHub Actions"]}`;
 
       try {
-        // Use the Generative Language REST endpoint (text-bison)
         const url = `https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateText?key=${encodeURIComponent(
           key
         )}`;
@@ -71,7 +70,6 @@ export async function POST(req: Request) {
         });
         if (!res.ok) return null;
         const data = await res.json();
-        // response.candidates[0].content typically holds the text
         const textResp = data?.candidates?.[0]?.content ?? data?.output?.[0]?.content;
         if (!textResp) return null;
         const jsonMatch = String(textResp).trim();
@@ -132,7 +130,6 @@ export async function POST(req: Request) {
 
     const aiResult = (await classifyWithGemini(text)) ?? heuristicClassify(text);
     if (aiResult) {
-      // normalize arrays to only strings and assign to item
       item.classification = {
         frontend: Array.isArray(aiResult.frontend) ? aiResult.frontend.map(String) : [],
         backend: Array.isArray(aiResult.backend) ? aiResult.backend.map(String) : [],
@@ -142,18 +139,10 @@ export async function POST(req: Request) {
       };
     }
 
-    // If userId provided, replace existing entry for that user (one entry per user)
-    if (item.userId) {
-      const idx = items.findIndex((it) => it.userId && it.userId === item.userId);
-      if (idx >= 0) {
-        // update existing
-        items[idx] = { ...items[idx], text: item.text, forAI: item.forAI, classification: item.classification, createdAt: item.createdAt };
-      } else {
-        items.push(item);
-      }
-    } else {
-      items.push(item);
-    }
+    // REMOVED: Check for existing userId. 
+    // NOW: Always append the new item.
+    items.push(item);
+    
     await fs.writeFile(file, JSON.stringify(items, null, 2), "utf8");
 
     return NextResponse.json({ ok: true, item }, { status: 201 });

@@ -11,7 +11,7 @@ export default function ModuleList() {
 
   async function fetchModules() {
     try {
-      const res = await fetch("/api/modules");
+      const res = await fetch("/api/module");
       const data = await res.json();
       if (data?.modules) setModules(data.modules);
     } catch (e) {

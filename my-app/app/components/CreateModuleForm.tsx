@@ -11,7 +11,7 @@ export default function CreateModuleForm({ onCreated }: { onCreated?: () => void
     if (!name.trim()) return;
     setLoading(true);
     try {
-      const res = await fetch("/api/modules", {
+      const res = await fetch("/api/module", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name }),
